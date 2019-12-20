@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, EventEmitter, Output } from '@angular/core'
 
 import { Phrasal } from '../shared/phrasal.model'
 import { PHRASES } from './phrases-mock'
@@ -22,6 +22,9 @@ export class PainelComponent implements OnInit {
 
   public attemps: number = 3
 
+  @Output() public endGame: EventEmitter<string> = new EventEmitter()
+
+
   constructor() {
     this.updateRound()
   }
@@ -35,16 +38,19 @@ export class PainelComponent implements OnInit {
   }
 
   public checkResponse(): void {
-    console.log(this.attemps)
+
     if (this.roundPhrasal.frasePtBr == this.response) {
-    alert('A tradução esta correta')
 
     // trocar pergunta da rodada
     this.round++
 
     // progress
     this.progress = this.progress + (100 / this.phrases.length)
-    console.log(this.progress)
+
+    // check round
+    if (this.round === 4) {
+      this.endGame.emit('You win!')
+    }
 
     // atualiza o objeto roundPhrasal
     this.updateRound()
@@ -54,10 +60,9 @@ export class PainelComponent implements OnInit {
       this.attemps--
 
       if (this.attemps === -1) {
-        alert('You missed all attemps')
+        this.endGame.emit('You lose!')
       }
     }
-    console.log(this.attemps)
   }
 
   public updateRound(): void {
