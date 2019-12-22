@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core'
+import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core'
 
 import { Phrasal } from '../shared/phrasal.model'
 import { PHRASES } from './phrases-mock'
@@ -9,7 +9,7 @@ import { PHRASES } from './phrases-mock'
   templateUrl: './painel.component.html',
   styleUrls: ['./painel.component.css']
 })
-export class PainelComponent implements OnInit {
+export class PainelComponent implements OnInit, OnDestroy {
 
   public phrases: Phrasal[] = PHRASES
   public instruction: string = 'Traduza a frase:'
@@ -22,6 +22,12 @@ export class PainelComponent implements OnInit {
 
   public attemps: number = 3
 
+  /**
+   *
+   *
+   *
+   *
+   */
   @Output() public endGame: EventEmitter<string> = new EventEmitter()
 
 
@@ -30,6 +36,9 @@ export class PainelComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
   }
 
   public updateResponse(resposta: Event): void {
@@ -49,7 +58,7 @@ export class PainelComponent implements OnInit {
 
     // check round
     if (this.round === 4) {
-      this.endGame.emit('You win!')
+      this.endGame.emit('You win')
     }
 
     // atualiza o objeto roundPhrasal
@@ -60,7 +69,7 @@ export class PainelComponent implements OnInit {
       this.attemps--
 
       if (this.attemps === -1) {
-        this.endGame.emit('You lose!')
+        this.endGame.emit('You lose')
       }
     }
   }

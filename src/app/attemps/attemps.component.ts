@@ -15,19 +15,16 @@ export class AttempsComponent implements OnInit, OnChanges {
     new Heart(true), new Heart(true), new Heart(true)
   ]
 
-  constructor() {
-    console.log(this.hearts)
-  }
+  constructor() {  }
 
   ngOnChanges() {
-
+    // this.attemps
+    // this.heart.length
     if (this.attemps !== this.hearts.length) {
       const index = this.hearts.length - this.attemps
 
       this.hearts[index - 1].full = false
     }
-
-    console.log(`Retries received from the panel: ${this.attemps}`)
   }
 
   ngOnInit() {
